@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>JavaScript</title>
+
+    <style type="text/css">
+      body {
+        background-image: url(shape3.jpg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+      .gameboard {
+        width: 600px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px black solid;
+        background-color: lightcyan;
+        padding-left: 60px;
+      }
+      .gameboard h1 {
+        padding-left: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 30px;
+      }
+      .score {
+        font-size: 30px;
+      }
+      .myBtn {
+        background-color: seagreen;
+        border-radius: 28px;
+        border: 1px solid black;
+        display: inline-block;
+        cursor: pointer;
+        color: black;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 16px 31px;
+        text-decoration: none;
+        position: relative;
+      }
+      .myBtn:hover {
+        background-color: seagreen;
+        opacity: 0.7;
+      }
+      .myBtn:active {
+        position: relative;
+        top: 1px;
+      }
+      .office {
+        float: left;
+        width: 120px;
+        height: 170px;
+        overflow: hidden;
+        position: relative;
+        border: 1px black solid;
+        margin: 10px 30px;
+        background-color: seashell;
+      }
+      .desk {
+        width: 100%;
+        height: 50px;
+        bottom: 0px;
+        position: absolute;
+        background-color: seagreen;
+        z-index: 2;
+      }
+      .computer {
+        background: url("ja3.jpeg") bottom center no-repeat;
+        background-size: 100% 100%;
+        position: absolute;
+        top: 100%;
+        height: 80%;
+        width: 100%;
+        transition: all 0.5s;
+      }
+      .popup {
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">Score:<span class="score">0</span></div>
+    <input type="button" value="Start Game" class="myBtn" onclick="start()" />
+    <input type="button" value="Try Agin" class="myBtn" onclick="onld()" />
+    <div class="gameboard"></div>
+
+    <script>
+      window.onload = build;
+      var computers;
+      var offices = 6;
+      var timer;
+      var r;
+      var incr = 0;
+
+      function build() {
+        var html = "<h1 >Hit Icka, you have 1 minut!</h1>";
+        for (var x = 0; x < offices; x++) {
+          html += '<div class="office"><div class="desk"></div><div class="computer"></div></div>';
+        }
+        document.querySelector(".gameboard").innerHTML = html;
+        computers = document.querySelectorAll(".computer");
+        for (var x = 0; x < computers.length; x++) {
+          computers[x].addEventListener("click", hitcomputer, false);
+        }
+      }
+      function myStopFunction() {
+        clearTimeout(timer);
+      }
+
+      function popup() {
+        r = computers[Math.floor(Math.random() * computers.length)];
+        r.classList.add("popup");
+        var rand = Math.floor(Math.random() * 10) * 100 + 200;
+        timer = setTimeout(hidecomputer, rand);
+      }
+      function hidecomputer() {
+        r.classList.remove("popup");
+        popup();
+      }
+
+      function hitcomputer() {
+        /* if (this.classList.contains("popup")) {
+          this.classList.remove("popup");
+        }*/
+
+        event.target.classList.remove("popup");
+        incr++;
+        var score = document.querySelector(".score");
+
+        score.innerHTML = incr;
+      }
+
+      function start() {
+        popup();
+        setTimeout(myStopFunction, 60000);
+      }
+      function onld() {
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
